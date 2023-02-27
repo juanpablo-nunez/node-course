@@ -4,8 +4,8 @@ const CategoryService = require('./category.service')
 const router = express.Router();
 
 const categoryService = new CategoryService();
-router.get('/', (req, res) => {
-  const products = categoryService.find();
+router.get('/', async(req, res) => {
+  const products = await categoryService.find();
   res.json(products)
 });
 
@@ -14,27 +14,27 @@ router.get('/filter', (req, res) => {
 })
 
 
-router.post('/', (req, res) => {
+router.post('/', async(req, res) => {
   const body = req.body;
-  res.json(categoryService.create(body));
+  res.json(await categoryService.create(body));
 })
 
-router.get('/:id', (req,res) => {
+router.get('/:id', async(req,res) => {
   const {id} = req.params;
-  const product = categoryService.findOne(id);
+  const product = await categoryService.findOne(id);
   res.json(product);
 })
 
-router.put('/:id', (req,res) => {
+router.put('/:id', async(req,res) => {
   const {id} = req.params;
   const body = req.body;
-  const category = categoryService.update(id,body);
+  const category = await categoryService.update(id,body);
   res.json(category);
 })
 
-router.delete('/:id', (req,res) => {
+router.delete('/:id', async(req,res) => {
   const {id} = req.params;
-  const productDeleted = categoryService.delete(id);
+  const productDeleted = await categoryService.delete(id);
   res.json(productDeleted);
 
 })
