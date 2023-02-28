@@ -1,4 +1,5 @@
 const faker = require('faker');
+const boom = require('@hapi/boom');
 
 class UserService{
   constructor(){
@@ -12,6 +13,7 @@ class UserService{
         id: faker.datatype.uuid(),
         name:  faker.commerce.productName(),
         image: faker.image.imageUrl(),
+        isBlock : faker .datatype.boolean()
       });
     }
   }
@@ -27,12 +29,19 @@ class UserService{
     return this.users;
   }
   async findOne(id){
-    return this.users.find(item => item.id === id);
+    const user = this.users.find(item => item.id === id);
+    if(!user){
+      throw boom.notFound('user not found');
+    }
+    if(user.isBlock){
+      throw boom.conflict('user is block');
+    }
+    return user;
   }
   async update(id, changes){
     const index = this.users.findIndex(item => item.id ===id)
     if(index === -1){
-      throw new Error('Product not found');
+      throw boom.conflict('user not found');
     }
     const product = this.users[index]
     this.users[index] = {
@@ -44,7 +53,7 @@ class UserService{
   async delete(id){
     const index = this.users.findIndex(item => item.id ===id);
     if(index === -1){
-      throw new Error('Product not found');
+      throw boom.conflict('user not found');
     }
     this.users.splice(index,1);
     return {message: 'Deleted',
