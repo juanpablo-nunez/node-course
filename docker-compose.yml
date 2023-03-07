@@ -1,0 +1,20 @@
+version: '3.'
+
+services:
+  postgres:
+    image: "postgres:12"
+    environment:
+      POSTGRES_DB: my_store
+      POSTGRES_USER: juanpablo
+      POSTGRES_PASSWORD: admin1234
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+  pgAdmin:
+    image: "dpage/pgadmin4:latest"
+    ports:
+      - "15432:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@my-store.com
+      PGADMIN_DEFAULT_PASSWORD: mystore123

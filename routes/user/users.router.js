@@ -5,6 +5,12 @@ const validatorHandler = require('./../../middlewares/validator.handler');
 const router = express.Router();
 const userSevice = new UserService();
 
+
+router.get('/', async(req, res) => {
+  const user = await userSevice.find();
+  res.json(user)
+});
+
 router.post('/',
   validatorHandler(createUserDto, 'body'),
     async(req, res) => {
