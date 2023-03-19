@@ -4,6 +4,7 @@ const validatorHandler = require('./../../middlewares/validator.handler');
 const {createCategoryDto, updateCategoryDto, getCategoryDto} = require('./../../schemas/category.dto')
 const router = express.Router();
 
+
 const categoryService = new CategoryService();
 router.get('/', async(req, res) => {
   const products = await categoryService.find();
